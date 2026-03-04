@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {AuthProvider} from "@/context/AuthContext";
-
+import { Toaster } from "react-hot-toast";
 const poppinsSans = Poppins({
   variable: "--font-poppins-sans",
   subsets: ["latin"],
@@ -32,6 +32,12 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         </AuthProvider>
+         <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 4000,
+          }}
+        />
       </body>
     </html>
   );

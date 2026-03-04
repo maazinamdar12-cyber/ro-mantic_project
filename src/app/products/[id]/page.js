@@ -1,11 +1,15 @@
 "use client";
 
+import { useToast } from "@/hooks/useToast";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 
 export default function ProductDetailPage() {
+
+  const { success, error } = useToast();
+
   const { id } = useParams();
   const addToCart = useCartStore((state) => state.addToCart);
 
@@ -13,9 +17,10 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     fetch(`/api/products/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Not found");
+        if (!res.ok) throw new Error("Product not found");
         return res.json();
       })
       .then((data) => {
@@ -23,10 +28,24 @@ export default function ProductDetailPage() {
         setLoading(false);
       })
       .catch(() => {
+        error("Failed to load product");
         setProduct(null);
         setLoading(false);
       });
+
   }, [id]);
+
+  const handleAddToCart = () => {
+
+    addToCart({
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+    });
+
+    success("Added to cart");
+  };
 
   if (loading) {
     return (
@@ -40,6 +59,7 @@ export default function ProductDetailPage() {
     return (
       <main className="mx-auto max-w-7xl px-4 py-20 text-center">
         <h1 className="text-2xl font-bold">Product not found</h1>
+
         <Link
           href="/products"
           className="mt-4 inline-block text-[var(--accent)]"
@@ -52,6 +72,7 @@ export default function ProductDetailPage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-14">
+
       {/* Back */}
       <Link
         href="/products"
@@ -60,8 +81,8 @@ export default function ProductDetailPage() {
         ← Back to Products
       </Link>
 
-      {/* Content */}
       <div className="mt-10 grid gap-10 md:grid-cols-2 items-start">
+
         {/* Image */}
         <div className="rounded-xl border bg-white p-6">
           <img
@@ -73,6 +94,7 @@ export default function ProductDetailPage() {
 
         {/* Info */}
         <div>
+
           <h1 className="text-3xl font-bold">{product.name}</h1>
 
           <p className="mt-4 text-gray-600 leading-relaxed">
@@ -83,29 +105,22 @@ export default function ProductDetailPage() {
             ₹{product.price}
           </p>
 
-          {/* CTA */}
           <button
-            onClick={() =>
-              addToCart({
-                id: product._id,
-                name: product.name,
-                price: product.price,
-                quantity: 1,
-              })
-            }
+            onClick={handleAddToCart}
             className="mt-8 w-full md:w-auto rounded bg-[var(--accent)] px-8 py-4 text-white font-medium hover:opacity-90"
           >
             Add to Cart
           </button>
 
-          {/* Trust signals */}
           <ul className="mt-6 space-y-2 text-sm text-gray-500">
             <li>✔ Free installation included</li>
             <li>✔ 1 year warranty</li>
             <li>✔ Service support available</li>
           </ul>
+
         </div>
       </div>
+
     </main>
   );
 }

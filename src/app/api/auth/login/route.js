@@ -3,20 +3,43 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
+import { loginSchema } from "@/lib/validation/loginSchema";
 
 export async function POST(req) {
   try {
     await connectDB();
-    const { email, password } = await req.json();
 
-    if (!email || !password) {
+    let body;
+
+    // Safe JSON parsing
+    try {
+      body = await req.json();
+    } catch {
       return NextResponse.json(
-        { message: "Email and password required" },
+        { message: "Invalid JSON body" },
         { status: 400 }
       );
     }
 
-    const user = await User.findOne({ email });
+    // Validate request body
+    const parsed = loginSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          message: parsed.error.issues[0].message,
+        },
+        { status: 400 }
+      );
+    }
+
+    const { email, password } = parsed.data;
+
+    // Normalize email
+    const normalizedEmail = email.toLowerCase().trim();
+
+    const user = await User.findOne({ email: normalizedEmail });
+
     if (!user) {
       return NextResponse.json(
         { message: "Invalid credentials" },
@@ -25,6 +48,7 @@ export async function POST(req) {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
       return NextResponse.json(
         { message: "Invalid credentials" },
@@ -51,17 +75,19 @@ export async function POST(req) {
       },
     });
 
-    // ✅ HTTP-only cookie (secure)
     response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       path: "/",
-      sameSite : "lax",
       maxAge: 60 * 60 * 24 * 7,
     });
 
     return response;
+
   } catch (error) {
+    console.error(error);
+
     return NextResponse.json(
       { message: "Login failed" },
       { status: 500 }

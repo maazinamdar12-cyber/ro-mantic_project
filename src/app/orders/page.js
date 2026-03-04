@@ -1,11 +1,32 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function OrdersPage() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch("/api/orders",{
+        credentials: "include",
+      });
+        const data = await res.json();
+        setOrders(data || []);
+      } catch (err) {
+        console.error("Failed to fetch orders", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-14">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold">My Orders</h1>
         <p className="mt-2 text-gray-500">
@@ -13,16 +34,23 @@ export default function OrdersPage() {
         </p>
       </div>
 
-      {/* Orders list */}
+      {loading && <p className="text-gray-500">Loading orders...</p>}
+
+      {!loading && orders.length === 0 && (
+        <p className="text-gray-500">No orders found.</p>
+      )}
+
       <div className="space-y-6">
-        <OrderCard
-          orderId="1001"
-          status="Processing"
-          delivery="Within 3–5 working days"
-        />
+        {orders.map((order) => (
+          <OrderCard
+            key={order._id}
+            orderId={order._id}
+            status={order.status}
+            delivery={order.delivery}
+          />
+        ))}
       </div>
 
-      {/* Actions */}
       <div className="mt-10 flex flex-col gap-4 sm:flex-row">
         <Link
           href="/products"
@@ -42,30 +70,20 @@ export default function OrdersPage() {
   );
 }
 
-/* ================= ORDER CARD ================= */
-
 function OrderCard({ orderId, status, delivery }) {
   return (
     <div className="rounded-xl border bg-white p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-semibold">
-          Order #{orderId}
-        </h2>
-
+        <h2 className="text-lg font-semibold">Order #{orderId}</h2>
         <StatusBadge status={status} />
       </div>
 
       <div className="mt-4 text-sm text-gray-600">
-        <div>
-          <span className="font-medium">Delivery:</span>{" "}
-          {delivery}
-        </div>
+        <span className="font-medium">Delivery:</span> {delivery}
       </div>
     </div>
   );
 }
-
-/* ================= STATUS BADGE ================= */
 
 function StatusBadge({ status }) {
   const styles = {

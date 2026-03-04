@@ -1,34 +1,91 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/useToast";
 
 export default function AdminOrdersPage() {
+
   const [orders, setOrders] = useState([]);
+  const [updatingId, setUpdatingId] = useState(null);
+
+  const { success, error, loading, dismiss } = useToast();
+
+  const loadOrders = async () => {
+    try {
+      const res = await fetch("/api/orders");
+      const data = await res.json();
+      setOrders(data);
+    } catch {
+      error("Failed to load orders");
+    }
+  };
 
   useEffect(() => {
-    fetch("/api/orders")
-      .then((res) => res.json())
-      .then((data) => setOrders(data));
+    loadOrders();
   }, []);
+
+  const handleStatusUpdate = async (id, newStatus) => {
+
+    const toastId = loading("Updating status...");
+
+    setUpdatingId(id);
+
+    try {
+
+      const res = await fetch(`/api/orders/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message);
+      }
+
+      dismiss(toastId);
+      success("Order status updated");
+
+      loadOrders();
+
+    } catch (err) {
+
+      dismiss(toastId);
+      error(err.message || "Failed to update order");
+
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   return (
     <div>
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Orders</h1>
+
         <p className="mt-2 text-gray-500">
           View and manage customer orders.
         </p>
       </div>
 
-      {/* Orders Table */}
+
       <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+
         {orders.length === 0 ? (
+
           <div className="p-8 text-center text-gray-500">
             No orders yet.
           </div>
+
         ) : (
+
           <table className="w-full text-sm">
+
             <thead className="bg-gray-100">
               <tr>
                 <th className="px-4 py-3 text-left">Order ID</th>
@@ -40,11 +97,14 @@ export default function AdminOrdersPage() {
             </thead>
 
             <tbody>
+
               {orders.map((order) => (
+
                 <tr
                   key={order._id}
                   className="border-t hover:bg-gray-50"
                 >
+
                   <td className="px-4 py-3 font-medium">
                     #{order._id.slice(-6)}
                   </td>
@@ -58,39 +118,41 @@ export default function AdminOrdersPage() {
                   </td>
 
                   <td className="px-4 py-3">
-                    <StatusBadge status={order.status} />
+
+                    <select
+                      value={order.status}
+                      disabled={updatingId === order._id}
+                      onChange={(e) =>
+                        handleStatusUpdate(order._id, e.target.value)
+                      }
+                      className="rounded border px-2 py-1 text-sm"
+                    >
+
+                      <option value="Processing">Processing</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
+
+                    </select>
+
                   </td>
 
                   <td className="px-4 py-3 text-right text-sm text-gray-500">
                     {order.items.length} item(s)
                   </td>
+
                 </tr>
+
               ))}
+
             </tbody>
+
           </table>
+
         )}
+
       </div>
+
     </div>
-  );
-}
-
-/* ================= STATUS BADGE ================= */
-
-function StatusBadge({ status }) {
-  const styles = {
-    Processing: "bg-yellow-100 text-yellow-700",
-    Shipped: "bg-blue-100 text-blue-700",
-    Delivered: "bg-green-100 text-green-700",
-    Cancelled: "bg-red-100 text-red-700",
-  };
-
-  return (
-    <span
-      className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${
-        styles[status] || "bg-gray-100 text-gray-700"
-      }`}
-    >
-      {status}
-    </span>
   );
 }
