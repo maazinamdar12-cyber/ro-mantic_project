@@ -51,7 +51,7 @@ export default function ServicesPage() {
 
 function ServiceCard({ service }) {
   return (
-    <div className="group rounded-xl border bg-white p-6 transition hover:shadow-lg">
+    <div className="group rounded-xl border p-6 transition hover:shadow-lg">
       {/* Title */}
       <h2 className="text-xl font-semibold">
         {service.name}

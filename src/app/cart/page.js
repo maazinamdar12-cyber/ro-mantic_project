@@ -17,7 +17,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <main className="flex min-h-screen items-center justify-center px-4">
-        <div className="rounded-xl border bg-white p-8 text-center">
+        <div className="rounded-xl border  p-8 text-center">
           <h1 className="text-2xl font-bold">
             Your cart is empty
           </h1>
@@ -52,7 +52,7 @@ export default function CartPage() {
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col gap-4 rounded-xl border bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-4 rounded-xl border  p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
             >
               {/* Product Info */}
               <div>
@@ -94,7 +94,7 @@ export default function CartPage() {
         </div>
 
         {/* ================= SUMMARY ================= */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm h-fit">
+        <div className="rounded-xl border  p-6 shadow-sm h-fit">
           <h2 className="mb-4 text-xl font-semibold">
             Order Summary
           </h2>

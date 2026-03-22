@@ -11,7 +11,7 @@ export default function AdminServicesPage() {
   useEffect(() => {
     fetch("/api/services")
       .then((res) => res.json())
-      .then((data) => setBookings(data));
+      .then((data) => setBookings(data.bookings));
   }, []);
 
   /* ================= FETCH TECHNICIANS ================= */
@@ -87,7 +87,7 @@ export default function AdminServicesPage() {
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="rounded border bg-white px-4 py-2 text-sm"
+          className="rounded border  px-4 py-2 text-sm"
         >
           <option>All</option>
           <option>Pending</option>
@@ -99,7 +99,7 @@ export default function AdminServicesPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border bg-white overflow-hidden">
+      <div className="rounded-xl border  overflow-hidden">
         {filteredBookings.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             No bookings found.

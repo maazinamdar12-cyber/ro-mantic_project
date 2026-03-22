@@ -72,7 +72,7 @@ export default function OrdersPage() {
 
 function OrderCard({ orderId, status, delivery }) {
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border  p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-semibold">Order #{orderId}</h2>
         <StatusBadge status={status} />

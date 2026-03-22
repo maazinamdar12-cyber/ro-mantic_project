@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${poppinsSans.variable} ${robotoMono.variable} antialiased`}
+        className={`${poppinsSans.variable} ${robotoMono.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
       >
         <AuthProvider>
 

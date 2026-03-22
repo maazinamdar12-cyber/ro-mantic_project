@@ -27,7 +27,8 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <main className="flex min-h-screen items-center justify-center px-4">
-        <div className="rounded-xl border bg-white p-8 text-center">
+        <div className="rounded-xl border 
+ p-8 text-center">
 
           <h1 className="text-2xl font-bold">
             Your cart is empty
@@ -129,7 +130,7 @@ export default function CheckoutPage() {
       <div className="grid gap-10 md:grid-cols-2">
 
         {/* ORDER SUMMARY */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border  p-6 shadow-sm">
 
           <h2 className="mb-6 text-xl font-semibold">
             Order Summary
@@ -167,7 +168,7 @@ export default function CheckoutPage() {
 
 
         {/* CUSTOMER INFO */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border  p-6 shadow-sm">
 
           <h2 className="mb-6 text-xl font-semibold">
             Delivery Information

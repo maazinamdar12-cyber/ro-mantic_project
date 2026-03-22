@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 
 export default function AdminLayout({ children }) {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen ">
       {/* ================= SIDEBAR ================= */}
-      <aside className="w-64 border-r bg-white px-4 py-6">
+      <aside className="w-64 border-r  px-4 py-6">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-lg font-bold">Admin Panel</h2>
           <AdminLogoutButton />

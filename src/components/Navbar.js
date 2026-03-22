@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { useAuth } from "@/context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -19,7 +20,7 @@ export default function Navbar() {
       : "hover:text-[var(--accent)]";
 
   return (
-    <nav className="border-b bg-white">
+    <nav className="border-b bg-[var(--background)] text-[var(--foreground)]">
       <div className="mx-auto max-w-7xl flex items-center justify-between px-4 h-16">
         <Link href="/" className="text-2xl font-black">
           RO<span className="text-[var(--accent)]">-mantic</span>
@@ -40,6 +41,11 @@ export default function Navbar() {
             </Link>
           )}
 
+          {user && (
+            <Link href="/services/my-bookings" className={linkClass("/bookings")}>
+              My Bookings
+            </Link>
+          )}
           {user?.role === "admin" && (
             <Link href="/admin" className={linkClass("/admin")}>
               Admin
@@ -72,6 +78,7 @@ export default function Navbar() {
               </Link>
             ))}
         </ul>
+        <ThemeToggle />
       </div>
     </nav>
   );

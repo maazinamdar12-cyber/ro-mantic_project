@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function ServiceConfirmationPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md rounded-xl border bg-white p-8 text-center shadow-sm">
+      <div className="w-full max-w-md rounded-xl border  p-8 text-center shadow-sm">
         {/* Success Icon */}
         <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600">
           ✓

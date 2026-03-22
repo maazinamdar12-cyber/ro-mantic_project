@@ -2,16 +2,24 @@ import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import { NextResponse } from "next/server";
 import { orderSchema } from "@/lib/validation/orderSchema";
-import { verifyToken } from "@/lib/verifyToken";
+import { verifyToken } from "@/lib/auth";
 import mongoose from "mongoose";
 
 /* ================= GET ORDERS ================= */
 
 export async function GET(req) {
   try {
+      const token = req.cookies.get("token")?.value;
+    
+        if (!token) {
+          return NextResponse.json(
+            { message: "Unauthorized" },
+            { status: 401 }
+          );
+        }
     await connectDB();
 
-    const user = verifyToken(req);
+    const user = verifyToken(token);
     console.log("user", user)
     if (!user) {
       return NextResponse.json(

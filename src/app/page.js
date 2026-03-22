@@ -23,7 +23,7 @@ export default function HomePage() {
             <div className="mt-8 flex gap-4">
               <Link
                 href="/products"
-                className="rounded bg-[var(--accent)] px-8 py-3 font-medium text-white hover:opacity-90"
+                className="rounded bg-[var(--accent)] px-8 py-3 font-medium  hover:opacity-90"
               >
                 View Products
               </Link>
@@ -111,7 +111,7 @@ export default function HomePage() {
 
 function FeatureCard({ title, desc, img }) {
   return (
-    <div className="rounded-lg border bg-white overflow-hidden shadow-sm hover:shadow-md transition">
+    <div className="rounded-lg border  overflow-hidden shadow-sm hover:shadow-md transition">
       <img
         src={img}
         alt={title}

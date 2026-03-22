@@ -60,7 +60,7 @@ function DashboardCard({ title, value, link, label }) {
   return (
     <Link
       href={link}
-      className="rounded-xl border bg-white p-6 shadow-sm transition hover:shadow-md"
+      className="rounded-xl border  p-6 shadow-sm transition hover:shadow-md"
     >
       <h2 className="text-sm font-medium text-gray-500">
         {title}
@@ -81,7 +81,7 @@ function DashboardCard({ title, value, link, label }) {
 
 function DashboardStatus() {
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border  p-6 shadow-sm">
       <h2 className="text-sm font-medium text-gray-500">
         System Status
       </h2>

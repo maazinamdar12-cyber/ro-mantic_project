@@ -1,9 +1,35 @@
 "use client";
 
-import { useServiceStore } from "@/store/serviceStore";
+import { useEffect, useState } from "react";
 
 export default function MyBookings() {
-  const bookings = useServiceStore((s) => s.bookings);
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const res = await fetch("/api/services", {
+          credentials: "include",
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to fetch bookings");
+        }
+
+        setBookings(data.bookings || []);
+      } catch (err) {
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-14">
@@ -15,9 +41,23 @@ export default function MyBookings() {
         </p>
       </div>
 
-      {/* Empty state */}
-      {bookings.length === 0 ? (
-        <div className="rounded-xl border bg-white p-8 text-center">
+      {/* Loading */}
+      {loading && (
+        <div className="text-center text-gray-500">
+          Loading bookings...
+        </div>
+      )}
+
+      {/* Error */}
+      {!loading && error && (
+        <div className="rounded-xl border bg-red-50 p-6 text-center text-red-600">
+          {error}
+        </div>
+      )}
+
+      {/* Empty */}
+      {!loading && !error && bookings.length === 0 && (
+        <div className="rounded-xl border  p-8 text-center">
           <p className="text-gray-600">
             You haven’t booked any services yet.
           </p>
@@ -25,10 +65,13 @@ export default function MyBookings() {
             Book a service to get installation, repair, or AMC support.
           </p>
         </div>
-      ) : (
+      )}
+
+      {/* List */}
+      {!loading && !error && bookings.length > 0 && (
         <div className="space-y-6">
           {bookings.map((b) => (
-            <BookingCard key={b.id} booking={b} />
+            <BookingCard key={b._id} booking={b} />
           ))}
         </div>
       )}
@@ -40,8 +83,7 @@ export default function MyBookings() {
 
 function BookingCard({ booking }) {
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
-      {/* Top row */}
+    <div className="rounded-xl border  p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-semibold">
           {booking.serviceName}
@@ -50,7 +92,6 @@ function BookingCard({ booking }) {
         <StatusBadge status={booking.status} />
       </div>
 
-      {/* Details */}
       <div className="mt-4 space-y-1 text-sm text-gray-600">
         <div>
           <span className="font-medium">Customer:</span>{" "}
@@ -96,4 +137,4 @@ function StatusBadge({ status }) {
       {status}
     </span>
   );
-}
+};

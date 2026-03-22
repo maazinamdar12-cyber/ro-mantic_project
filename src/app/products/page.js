@@ -13,7 +13,7 @@ export default function ProductsPage() {
   }, []);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14">
+    <main className="mx-auto max-w-7xl px-4 py-14 ">
       {/* Header */}
       <div className="mb-10">
         <h1 className="text-3xl font-bold">RO Purifiers</h1>
@@ -36,7 +36,7 @@ export default function ProductsPage() {
 
 function ProductCard({ product }) {
   return (
-    <div className="group rounded-xl border bg-white overflow-hidden transition hover:shadow-lg">
+    <div className="group rounded-xl border bg-[var(--background)] text-[var(--foreground)] overflow-hidden transition hover:shadow-lg">
       {/* Image */}
       <div className="h-48 bg-gray-100 overflow-hidden">
         <img

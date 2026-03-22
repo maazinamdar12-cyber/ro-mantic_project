@@ -11,7 +11,11 @@ const ServiceBookingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
+    userId : {
+      type : mongoose.SchemaTypes.ObjectId,
+      ref : "User",
+      required : true,
+    },
     customerName: {
       type: String,
       required: true,

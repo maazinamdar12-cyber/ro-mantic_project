@@ -155,7 +155,7 @@ export default function AdminProductsPage() {
 
       {/* ================= ADD PRODUCT ================= */}
 
-      <div className="mb-10 rounded-xl border bg-white p-6 shadow-sm">
+      <div className="mb-10 rounded-xl border  p-6 shadow-sm">
 
         <h2 className="mb-4 text-lg font-semibold">
           Add New Product
@@ -233,7 +233,7 @@ export default function AdminProductsPage() {
 
       {/* ================= PRODUCT LIST ================= */}
 
-      <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border  shadow-sm overflow-hidden">
 
         {products.length === 0 ? (
 

@@ -37,7 +37,7 @@ export default function TechnicianDashboard() {
 
       {/* Empty State */}
       {jobs.length === 0 ? (
-        <div className="rounded-xl border bg-white p-8 text-center">
+        <div className="rounded-xl border  p-8 text-center">
           <p className="text-gray-600">
             No jobs assigned yet.
           </p>
@@ -64,7 +64,7 @@ export default function TechnicianDashboard() {
 
 function JobCard({ job, onStatusChange }) {
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border  p-6 shadow-sm">
       {/* Top */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-semibold">

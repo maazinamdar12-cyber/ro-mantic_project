@@ -1,13 +1,11 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-
+import {useAuthStore} from '@/store/authStore'
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+  const {user,setUser,loading} = useAuthStore()
   // 🔑 Fetch logged-in user ONCE when app loads
   useEffect(() => {
     const loadUser = async () => {
@@ -25,9 +23,7 @@ export function AuthProvider({ children }) {
         setUser(data.user);
       } catch {
         setUser(null);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     loadUser();

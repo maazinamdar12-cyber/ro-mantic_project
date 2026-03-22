@@ -84,7 +84,7 @@ export default function ProductDetailPage() {
       <div className="mt-10 grid gap-10 md:grid-cols-2 items-start">
 
         {/* Image */}
-        <div className="rounded-xl border bg-white p-6">
+        <div className="rounded-xl border  p-6">
           <img
             src={product.image || "/images/placeholder-product.jpg"}
             alt={product.name}

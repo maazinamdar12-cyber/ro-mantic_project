@@ -60,7 +60,7 @@ export default function AdminTechniciansPage() {
       </div>
 
       {/* ================= ADD TECHNICIAN ================= */}
-      <div className="mb-10 rounded-xl border bg-white p-6 shadow-sm">
+      <div className="mb-10 rounded-xl border  p-6 shadow-sm">
         <h2 className="mb-4 text-lg font-semibold">
           Add Technician
         </h2>
@@ -90,7 +90,7 @@ export default function AdminTechniciansPage() {
       </div>
 
       {/* ================= TECHNICIAN LIST ================= */}
-      <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border  shadow-sm overflow-hidden">
         {technicians.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             No technicians added yet.

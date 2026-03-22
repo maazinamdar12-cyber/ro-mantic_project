@@ -3,34 +3,16 @@
 :root {
   --background: #fdffff;
   --foreground: #262325;
-  --accent : #ec4442;
-
-  --font-poppins-sans: "Poppins", sans-serif;
-  --font-roboto-mono: "Roboto Mono", monospace;
+  --accent: #ec4442;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-poppins-sans);
-  --font-mono: var(--font-roboto-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: #fdffff;
-    --background: #262325;
-    --accent : #ec4442;
-  }
+.dark {
+  --background: #262325;
+  --foreground: #fdffff;
+  --accent: #ec4442;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-poppins-sans);
-}
-
-code,
-pre {
-  font-family: var(--font-roboto-mono);
 }

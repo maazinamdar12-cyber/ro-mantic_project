@@ -74,7 +74,7 @@ export default function AdminOrdersPage() {
       </div>
 
 
-      <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border  shadow-sm overflow-hidden">
 
         {orders.length === 0 ? (
 

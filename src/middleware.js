@@ -30,6 +30,8 @@ export function middleware(request) {
     "/orders",
     "/checkout",
     "/services/book",
+    "/services/my-bookings",
+    
   ];
 
   if (protectedUserRoutes.some((route) => pathname.startsWith(route))) {

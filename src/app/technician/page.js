@@ -25,7 +25,7 @@ export default function TechnicianSelectPage() {
 
       {/* Empty state */}
       {technicians.length === 0 ? (
-        <div className="rounded-xl border bg-white p-8 text-center">
+        <div className="rounded-xl border  p-8 text-center">
           <p className="text-gray-600">
             No technicians available.
           </p>
@@ -38,7 +38,7 @@ export default function TechnicianSelectPage() {
           {technicians.map((t) => (
             <li
               key={t.id}
-              className="flex flex-col gap-4 rounded-xl border bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-4 rounded-xl border  p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
             >
               {/* Info */}
               <div>
