@@ -20,7 +20,6 @@ export async function GET(req) {
     await connectDB();
 
     const user = verifyToken(token);
-    console.log("user", user)
     if (!user) {
       return NextResponse.json(
         { message: "Unauthorized" },
@@ -56,10 +55,17 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
+    const token = req.cookies.get("token")?.value;
+    
+        if (!token) {
+          return NextResponse.json(
+            { message: "Unauthorized" },
+            { status: 401 }
+          );
+        }
     await connectDB();
 
-    const user = verifyToken(req);
-
+      const user = verifyToken(token);
     if (!user) {
       return NextResponse.json(
         { message: "Unauthorized" },
